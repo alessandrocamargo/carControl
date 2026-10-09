@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react"
 import {getVehicles} from "../repositories/vehiclesRepository";
-
+import AddVehicles from "../components/AddVehicles"
 export default function AdminPage(){
     const [vehicles, setVehicles] = useState([]);
 
     useEffect(() => {
-        async function load() {
-            const lista = await getVehicles();
+        function load() {
+            const lista = getVehicles();
             setVehicles(lista);
         }
         load();
     }, []);
     return (
         <>
+            <AddVehicles />
             <h1>Admin</h1>
             <p>Quantidade de veiculos: {vehicles.length}</p>
         </>
