@@ -3,6 +3,7 @@ import normalizePlate, { isValidPlate } from "../utils/plate";
 import { getVehicles } from "../repositories/vehiclesRepository";
 import TripForm from "../components/TripForm";
 import { useState } from "react";
+import TripReview from "../components/TripReview";
 
 
 export default function VehiclePage(){
@@ -39,13 +40,7 @@ export default function VehiclePage(){
             
             
             {
-               isReviewing  && tripDraft && ( <div>
-                    <h2>Confira os dados</h2>
-                    <p>Motorista: {tripDraft.driverName}</p>
-                    <p>Destino: {tripDraft.destination}</p>
-                    <p>KM Inicial: {tripDraft.initialMileage} Km</p>
-                    <button type="button" onClick={() => setIsReviewing(false)}>Editar dados</button>
-                </div>)
+               isReviewing  && tripDraft && <TripReview tripDraft={tripDraft} onEdit={() => setIsReviewing(false)} />
                     
 
             }
