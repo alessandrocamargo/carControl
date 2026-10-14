@@ -21,6 +21,14 @@ export default function AdminPage(){
             <AddVehicles onVehicleAdded={handleVehicleAdded} />
             <h1>Admin</h1>
             <p>Quantidade de veiculos: {vehicles.length}</p>
+            {vehicles.length === 0 && <p>Nenhum veiculo Cadastrado</p>}
+            <ul>
+                {
+                   vehicles.map((vehicle) =>(
+                        <li key={vehicle.plate}>{vehicle.plate}</li>
+                    ))
+                }
+            </ul>
         </>
     )
 }
