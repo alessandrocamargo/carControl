@@ -3,6 +3,11 @@ import {getVehicles} from "../repositories/vehiclesRepository";
 import AddVehicles from "../components/AddVehicles"
 export default function AdminPage(){
     const [vehicles, setVehicles] = useState([]);
+    
+    function handleVehicleAdded(){
+        const updatedVehicles = getVehicles();
+        setVehicles(updatedVehicles);
+    }
 
     useEffect(() => {
         function load() {
@@ -13,7 +18,7 @@ export default function AdminPage(){
     }, []);
     return (
         <>
-            <AddVehicles />
+            <AddVehicles onVehicleAdded={handleVehicleAdded} />
             <h1>Admin</h1>
             <p>Quantidade de veiculos: {vehicles.length}</p>
         </>

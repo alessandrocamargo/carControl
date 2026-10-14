@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {addVehicle} from "../repositories/vehiclesRepository"
-export default function AddVehicle(){
+export default function AddVehicle({onVehicleAdded}){
     const [plate, setPlate] = useState("");
 
     function handleSubmit(event){
@@ -8,6 +8,7 @@ export default function AddVehicle(){
 
         try{
             const newVehicle = addVehicle(plate);
+            onVehicleAdded();
             alert(`Veículo ${newVehicle.plate} cadastrado com sucesso!`);
             setPlate("")
         } catch(error){
@@ -15,10 +16,13 @@ export default function AddVehicle(){
         }
     }
 
+
+    
+
     return(
         <form onSubmit={handleSubmit}>
             <label htmlFor="plate">Placa:</label>
-            <input type="text" name="txtPlate" placeholder="Digite a placa" value={plate} onChange={(event) => setPlate(event.target.value)} />
+            <input type="text" id="plate" name="txtPlate" placeholder="Digite a placa" value={plate} onChange={(event) => setPlate(event.target.value)} />
             <button name="btnCadastrar" type="submit">Cadastrar</button>
         </form>
     )
