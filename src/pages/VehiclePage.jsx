@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import normalizePlate, { isValidPlate } from "../utils/plate";
 import { getVehicles } from "../repositories/vehiclesRepository";
+import TripForm from "../components/TripForm";
 
 
 export default function VehiclePage(){
@@ -24,6 +25,7 @@ export default function VehiclePage(){
         
         <>
             <h1>Veículo: {normalizedPlate}</h1>
+            <TripForm />
         </>
     )
 }
