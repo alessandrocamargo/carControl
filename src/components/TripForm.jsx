@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default function TripForm(){
+export default function TripForm({onSubmitTrip}){
     const [driverName, setDriverName] = useState("");
     const [destination, setDestination] = useState("");
 
@@ -11,7 +11,13 @@ export default function TripForm(){
 
         if (trimmedDriverName === "" || trimmedDestination === ""){
             alert("Informe o motorista e o destino")
+            return;
         }
+
+        onSubmitTrip({
+            driverName: trimmedDriverName,
+            destination: trimmedDestination
+        })
     }
 
     return(
