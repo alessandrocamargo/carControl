@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import normalizePlate, { isValidPlate } from "../utils/plate";
+import { getVehicles } from "../repositories/vehiclesRepository";
 
 
 export default function VehiclePage(){
@@ -10,6 +11,15 @@ export default function VehiclePage(){
     if (!plateIsValid){
         return <p>Placa inválida</p>
     }
+
+    const vehicles = getVehicles();
+
+    const registeredVehicle = vehicles.find((vehicle) => vehicle.plate === normalizedPlate)
+
+    if(!registeredVehicle){
+        return <p>Placa não cadastrada</p>
+    }
+
     return(
         
         <>
