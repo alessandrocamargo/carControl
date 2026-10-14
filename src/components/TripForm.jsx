@@ -1,8 +1,8 @@
 import { useState } from "react"
 
-export default function TripForm({onSubmitTrip}){
-    const [driverName, setDriverName] = useState("");
-    const [destination, setDestination] = useState("");
+export default function TripForm({onSubmitTrip, initialData }){
+    const [driverName, setDriverName] = useState(initialData?.driverName??"");
+    const [destination, setDestination] = useState(initialData?.destination??"");
 
     function handleSubmit(event){
         event.preventDefault();

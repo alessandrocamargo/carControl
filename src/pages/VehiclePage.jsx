@@ -10,6 +10,7 @@ export default function VehiclePage(){
     const {plate} = useParams();
     const normalizedPlate = normalizePlate(plate);
     const plateIsValid = isValidPlate(normalizedPlate);
+    const [isReviewing, setIsReviewing] = useState(false);
     
 
     if (!plateIsValid){
@@ -26,18 +27,24 @@ export default function VehiclePage(){
 
     function handleSubmitTrip(tripData) {
         setTripDraft(tripData);
+        setIsReviewing(true);
     }
 
     return(
         <>
-            <TripForm onSubmitTrip={handleSubmitTrip} />
             <h1>Veículo: {normalizedPlate}</h1>
             {
-                tripDraft && <div>
+                !isReviewing && <TripForm onSubmitTrip={handleSubmitTrip} initialData={tripDraft} />
+            }
+            
+            
+            {
+               isReviewing  && tripDraft && ( <div>
                     <h2>Confira os dados</h2>
                     <p>Motorista: {tripDraft.driverName}</p>
                     <p>Destino: {tripDraft.destination}</p>
-                </div>
+                    <button type="button" onClick={() => setIsReviewing(false)}>Editar dados</button>
+                </div>)
                     
 
             }
