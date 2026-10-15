@@ -4,8 +4,8 @@ import { getVehicles } from "../repositories/vehiclesRepository";
 import TripForm from "../components/TripForm";
 import { useState } from "react";
 import TripReview from "../components/TripReview";
-import { createTrip } from "../repositories/tripRepository";
-
+import { createTrip, getOpenTripByPlate } from "../repositories/tripRepository";
+import OpenTrip from "../components/OpenTrip";
 
 export default function VehiclePage(){
     const [tripDraft, setTripDraft] = useState(null);
@@ -13,6 +13,9 @@ export default function VehiclePage(){
     const normalizedPlate = normalizePlate(plate);
     const plateIsValid = isValidPlate(normalizedPlate);
     const [isReviewing, setIsReviewing] = useState(false);
+    const [openTrip, setOpenTrip] = useState(
+        () => getOpenTripByPlate(normalizedPlate)
+    );
     
 
     if (!plateIsValid){
@@ -34,15 +37,23 @@ export default function VehiclePage(){
 
     function handleConfirmTrip(){
        try{
-            createTrip({
+            const createdTrip = createTrip({
                 ...tripDraft,
                 plate: normalizedPlate
             });
-
+            setOpenTrip(createdTrip);
             alert("Saida registrada com sucesso!")
        } catch (error) {
             alert(error.message);
        }
+    }
+    if(openTrip){
+        return (
+            <>
+                <h1>Veículo: {normalizedPlate}</h1>
+                <OpenTrip trip={openTrip} />
+            </>
+        )
     }
 
     return(
