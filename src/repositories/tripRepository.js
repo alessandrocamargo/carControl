@@ -1,31 +1,42 @@
-export function getTrips(){
+export function getTrips() {
     const storedTrips = localStorage.getItem("trips");
 
     if (storedTrips === null) {
-        return[];
+        return [];
     }
 
     return JSON.parse(storedTrips);
 }
 
-export function getOpenTripByPlate(plate){
+export function getOpenTripByPlate(plate) {
     const trips = getTrips();
-    
+
     return trips.find((trip) => trip.plate === plate && trip.status === "open");
 }
 
-export function createTrip(tripData){
+export function createTrip(tripData) {
     const openTrip = getOpenTripByPlate(tripData.plate)
     const trips = getTrips();
-    if (openTrip){
+    const driverName = tripData.driverName.trim();
+    const destination = tripData.destination.trim();
+
+    if (!Number.isInteger(tripData.initialMileage) || tripData.initialMileage < 0) {
+        throw new Error("Quilometragem inicial inválida.");
+    }
+
+    if (driverName === "" || destination === "") {
+        throw new Error("Informe o Motorista e ou Destino")
+    }
+
+    if (openTrip) {
         throw new Error("Este veiculo já possui uma viagem aberta");
     }
 
     const newTrip = {
         id: crypto.randomUUID(),
         plate: tripData.plate,
-        driverName: tripData.driverName,
-        destination: tripData.destination,
+        driverName: driverName,
+        destination: destination,
         initialMileage: tripData.initialMileage,
         departureAt: new Date().toISOString(),
         finalMileage: null,
@@ -35,22 +46,22 @@ export function createTrip(tripData){
     const updatedTrips = [...trips, newTrip];
     localStorage.setItem("trips", JSON.stringify(updatedTrips));
     return newTrip
-    
+
 }
 
-export function closeTrip(tripId, finalMileage){
+export function closeTrip(tripId, finalMileage) {
     const trips = getTrips();
     const trip = trips.find((trip) => trip.id === tripId);
 
-    if(!trip){
+    if (!trip) {
         throw new Error("Viagem não encontrada");
     }
 
-    if(trip.status !== "open"){
+    if (trip.status !== "open") {
         throw new Error("Esta viagem esta encerrada.");
     }
 
-    if(finalMileage < trip.initialMileage || !Number.isInteger(finalMileage)){
+    if (finalMileage < trip.initialMileage || !Number.isInteger(finalMileage)) {
         throw new Error("Quilometragem final invalida")
     }
 
