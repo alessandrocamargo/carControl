@@ -1,4 +1,4 @@
-export default function TripReview({tripDraft, onEdit}){
+export default function TripReview({tripDraft, onEdit, onConfirm}){
     return(
         <div>
             <h2>Confira os dados</h2>
@@ -6,6 +6,7 @@ export default function TripReview({tripDraft, onEdit}){
             <p>Destino: {tripDraft.destination}</p>
             <p>KM Inicial: {tripDraft.initialMileage} Km</p>
             <button type="button" onClick={onEdit}>Editar dados</button>
+            <button type="button" onClick={onConfirm}>Confirmar Saida</button>
         </div>
     )
 }

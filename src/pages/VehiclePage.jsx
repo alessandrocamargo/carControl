@@ -4,6 +4,7 @@ import { getVehicles } from "../repositories/vehiclesRepository";
 import TripForm from "../components/TripForm";
 import { useState } from "react";
 import TripReview from "../components/TripReview";
+import { createTrip } from "../repositories/tripRepository";
 
 
 export default function VehiclePage(){
@@ -31,6 +32,19 @@ export default function VehiclePage(){
         setIsReviewing(true);
     }
 
+    function handleConfirmTrip(){
+       try{
+            createTrip({
+                ...tripDraft,
+                plate: normalizedPlate
+            });
+
+            alert("Saida registrada com sucesso!")
+       } catch (error) {
+            alert(error.message);
+       }
+    }
+
     return(
         <>
             <h1>Veículo: {normalizedPlate}</h1>
@@ -40,7 +54,7 @@ export default function VehiclePage(){
             
             
             {
-               isReviewing  && tripDraft && <TripReview tripDraft={tripDraft} onEdit={() => setIsReviewing(false)} />
+               isReviewing  && tripDraft && <TripReview tripDraft={tripDraft} onEdit={() => setIsReviewing(false)} onConfirm={handleConfirmTrip} />
                     
 
             }
