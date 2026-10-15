@@ -7,6 +7,7 @@ import TripReview from "../components/TripReview";
 import { createTrip, getOpenTripByPlate, closeTrip } from "../repositories/tripRepository";
 import OpenTrip from "../components/OpenTrip";
 import ReturnTripForm from "../components/ReturnTripForm";
+import ReturnTripReview from "../components/ReturnTripReview";
 
 export default function VehiclePage(){
     const [tripDraft, setTripDraft] = useState(null);
@@ -84,16 +85,7 @@ export default function VehiclePage(){
                 }
                 {
                     isReviewingReturn && returnDraft && (
-                        <div>
-                            <h2>Confira o retorno:</h2>
-                            <p>KM Final: {returnDraft.finalMileage} km</p>
-                            <p>
-                                Distância Percorrida: {" "}
-                                {returnDraft.finalMileage - openTrip.initialMileage} km
-                            </p>
-                            <button type="button" onClick={() => setIsReviewingReturn(false)}>Editar retorno</button>
-                            <button type="button" onClick={handleConfirmReturn}>Confirmar retorno</button>
-                        </div>
+                        <ReturnTripReview returnDraft={returnDraft} initialMileage={openTrip.initialMileage} onEdit={() => setIsReviewingReturn(false)} onConfirm={handleConfirmReturn} />
                     )
                 }
             </>
