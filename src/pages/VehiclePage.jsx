@@ -4,7 +4,7 @@ import { getVehicles } from "../repositories/vehiclesRepository";
 import TripForm from "../components/TripForm";
 import { useState } from "react";
 import TripReview from "../components/TripReview";
-import { createTrip, getOpenTripByPlate } from "../repositories/tripRepository";
+import { createTrip, getOpenTripByPlate, closeTrip } from "../repositories/tripRepository";
 import OpenTrip from "../components/OpenTrip";
 import ReturnTripForm from "../components/ReturnTripForm";
 
@@ -56,6 +56,22 @@ export default function VehiclePage(){
         setIsReviewingReturn(true);
     }
 
+    function handleConfirmReturn(){
+        try{
+            closeTrip(openTrip.id, returnDraft.finalMileage);
+
+            setOpenTrip(null);
+            setReturnDraft(null);
+            setIsReviewingReturn(false);
+            setTripDraft(null);
+            setIsReviewing(false);
+
+            alert("Retorno registrado com sucesso!")
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+
     if(openTrip){
         return(
             <>
@@ -76,6 +92,7 @@ export default function VehiclePage(){
                                 {returnDraft.finalMileage - openTrip.initialMileage} km
                             </p>
                             <button type="button" onClick={() => setIsReviewingReturn(false)}>Editar retorno</button>
+                            <button type="button" onClick={handleConfirmReturn}>Confirmar retorno</button>
                         </div>
                     )
                 }

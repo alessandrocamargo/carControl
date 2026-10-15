@@ -37,3 +37,31 @@ export function createTrip(tripData){
     return newTrip
     
 }
+
+export function closeTrip(tripId, finalMileage){
+    const trips = getTrips();
+    const trip = trips.find((trip) => trip.id === tripId);
+
+    if(!trip){
+        throw new Error("Viagem não encontrada");
+    }
+
+    if(trip.status !== "open"){
+        throw new Error("Esta viagem esta encerrada.");
+    }
+
+    if(finalMileage < trip.initialMileage || !Number.isInteger(finalMileage)){
+        throw new Error("Quilometragem final invalida")
+    }
+
+    const closedTrip = {
+        ...trip,
+        finalMileage: finalMileage,
+        returnedAt: new Date().toISOString(),
+        status: "closed"
+    }
+
+    const updatedTrips = trips.map((trip) => trip.id === tripId ? closedTrip : trip)
+    localStorage.setItem("trips", JSON.stringify(updatedTrips))
+    return closedTrip;
+}
