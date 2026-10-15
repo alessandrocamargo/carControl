@@ -6,6 +6,7 @@ import { useState } from "react";
 import TripReview from "../components/TripReview";
 import { createTrip, getOpenTripByPlate } from "../repositories/tripRepository";
 import OpenTrip from "../components/OpenTrip";
+import ReturnTripForm from "../components/ReturnTripForm";
 
 export default function VehiclePage(){
     const [tripDraft, setTripDraft] = useState(null);
@@ -47,11 +48,17 @@ export default function VehiclePage(){
             alert(error.message);
        }
     }
+
+    function handleSubmitReturn(returndata){
+        console.log("Dados do retorno:", returndata);
+    }
+
     if(openTrip){
         return (
             <>
                 <h1>Veículo: {normalizedPlate}</h1>
                 <OpenTrip trip={openTrip} />
+                <ReturnTripForm initialMileage={openTrip.initialMileage} onSubmitReturn={handleSubmitReturn} />
             </>
         )
     }
