@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function ReturnTripForm({ initialMileage, onSubmitReturn }){
-     const [finalMileage, setFinalMileage] = useState("");
+export default function ReturnTripForm({ initialMileage, onSubmitReturn, initialData }){
+     const [finalMileage, setFinalMileage] = useState(initialData?.finalMileage ?? "");
     
     function handleSubmit(event){
         event.preventDefault()

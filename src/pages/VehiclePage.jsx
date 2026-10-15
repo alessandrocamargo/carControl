@@ -17,6 +17,8 @@ export default function VehiclePage(){
     const [openTrip, setOpenTrip] = useState(
         () => getOpenTripByPlate(normalizedPlate)
     );
+    const [returnDraft, setReturnDraft] = useState(null);
+    const [isReviewingReturn, setIsReviewingReturn] = useState(false);
     
 
     if (!plateIsValid){
@@ -50,15 +52,33 @@ export default function VehiclePage(){
     }
 
     function handleSubmitReturn(returndata){
-        console.log("Dados do retorno:", returndata);
+        setReturnDraft(returndata);
+        setIsReviewingReturn(true);
     }
 
     if(openTrip){
-        return (
+        return(
             <>
-                <h1>Veículo: {normalizedPlate}</h1>
+                <h1>Veiculo: {normalizedPlate}</h1>
                 <OpenTrip trip={openTrip} />
-                <ReturnTripForm initialMileage={openTrip.initialMileage} onSubmitReturn={handleSubmitReturn} />
+                {
+                    !isReviewingReturn && (
+                        <ReturnTripForm initialMileage={openTrip.initialMileage} initialData={returnDraft} onSubmitReturn={handleSubmitReturn} />
+                    )
+                }
+                {
+                    isReviewingReturn && returnDraft && (
+                        <div>
+                            <h2>Confira o retorno:</h2>
+                            <p>KM Final: {returnDraft.finalMileage} km</p>
+                            <p>
+                                Distância Percorrida: {" "}
+                                {returnDraft.finalMileage - openTrip.initialMileage} km
+                            </p>
+                            <button type="button" onClick={() => setIsReviewingReturn(false)}>Editar retorno</button>
+                        </div>
+                    )
+                }
             </>
         )
     }
