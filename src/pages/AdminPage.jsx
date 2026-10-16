@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getVehicles } from "../repositories/vehiclesRepository";
 import AddVehicles from "../components/AddVehicles"
-import { QRCodeSVG } from "qrcode.react";
+import VehicleCard from "../components/VehicleCard";
 export default function AdminPage() {
     const [vehicles, setVehicles] = useState([]);
 
@@ -25,12 +25,10 @@ export default function AdminPage() {
             {vehicles.length === 0 && <p>Nenhum veiculo Cadastrado</p>}
             <ul>
                 {vehicles.map((vehicle) => {
-                    const vehicleUrl = `${window.location.origin}/veiculo/${vehicle.plate}`;
+                    
                     return (
                         <li key={vehicle.plate}>
-                            <p>{vehicle.plate}</p>
-                            <p>{vehicleUrl}</p>
-                            <QRCodeSVG value={vehicleUrl} size={160} />
+                            <VehicleCard vehicle={vehicle} />
                         </li>
                     );
                 })}

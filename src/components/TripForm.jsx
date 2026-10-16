@@ -39,13 +39,17 @@ export default function TripForm({onSubmitTrip, initialData }){
     return(
         <form onSubmit={handleSubmit}>
             <label htmlFor="driverName">Motorista:</label>
+            <br />
             <input type="text" id="driverName" placeholder="Digite o nome do motorista" value={driverName} onChange={(event) => setDriverName(event.target.value)} />
-            &nbsp;
+            <br />
             <label htmlFor="destination">Destino</label>
+            <br />
             <input type="text" id="destination" placeholder="Digite o destino" value={destination} onChange={(event) => setDestination(event.target.value)} />
-            &nbsp;
+            <br />
             <label htmlFor="initialMileage">KM Inicial</label>
+            <br />
             <input type="number" id="initialMileage" min="0" step="1" value={initialMileage} onChange={(event) => setInitialMileage(event.target.value)} placeholder="Digite a KM inicial" />
+            <br />
             <button type="submit">Conferir dados</button>
         </form>
     )
