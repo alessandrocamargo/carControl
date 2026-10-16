@@ -5,7 +5,19 @@ export function getTrips() {
         return [];
     }
 
-    return JSON.parse(storedTrips);
+    let trips;
+
+    try{
+        trips = JSON.parse(storedTrips)
+    } catch {
+        throw new Error("Não foi possivel ler os dados de viagens armazenados")
+    }
+
+    if(!Array.isArray(trips)){
+        throw new Error("Os dados de viagens armazenados não são uma lista")
+    }
+
+    return trips;
 }
 
 export function getOpenTripByPlate(plate) {
@@ -15,11 +27,10 @@ export function getOpenTripByPlate(plate) {
 }
 
 export function createTrip(tripData) {
-    const openTrip = getOpenTripByPlate(tripData.plate)
     const trips = getTrips();
     const driverName = tripData.driverName.trim();
     const destination = tripData.destination.trim();
-
+    const openTrip = getOpenTripByPlate(tripData.plate);
     if (!Number.isInteger(tripData.initialMileage) || tripData.initialMileage < 0) {
         throw new Error("Quilometragem inicial inválida.");
     }

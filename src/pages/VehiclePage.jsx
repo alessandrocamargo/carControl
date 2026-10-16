@@ -9,20 +9,39 @@ import OpenTrip from "../components/OpenTrip";
 import ReturnTripForm from "../components/ReturnTripForm";
 import ReturnTripReview from "../components/ReturnTripReview";
 
-export default function VehiclePage(){
+export default function VehiclePage() {
     const [tripDraft, setTripDraft] = useState(null);
-    const {plate} = useParams();
+    const { plate } = useParams();
     const normalizedPlate = normalizePlate(plate);
     const plateIsValid = isValidPlate(normalizedPlate);
     const [isReviewing, setIsReviewing] = useState(false);
-    const [openTrip, setOpenTrip] = useState(
-        () => getOpenTripByPlate(normalizedPlate)
-    );
     const [returnDraft, setReturnDraft] = useState(null);
     const [isReviewingReturn, setIsReviewingReturn] = useState(false);
-    
+    const [tripLoadResult] = useState(() => {
+        try {
+            return {
+                trip: getOpenTripByPlate(normalizedPlate),
+                error: null
+            }
+        } catch (error) {
+            return {
+                trip: null,
+                error: error.message
+            }
+        }
+    })
+    const [openTrip, setOpenTrip] = useState(tripLoadResult.trip);
 
-    if (!plateIsValid){
+    if (tripLoadResult.error) {
+        return (
+            <>
+                <h1>Veículo: {normalizedPlate}</h1>
+                <p role="alert">{tripLoadResult.error}</p>
+            </>
+        );
+    }
+
+    if (!plateIsValid) {
         return <p>Placa inválida</p>
     }
 
@@ -30,7 +49,7 @@ export default function VehiclePage(){
 
     const registeredVehicle = vehicles.find((vehicle) => vehicle.plate === normalizedPlate)
 
-    if(!registeredVehicle){
+    if (!registeredVehicle) {
         return <p>Placa não cadastrada</p>
     }
 
@@ -39,26 +58,26 @@ export default function VehiclePage(){
         setIsReviewing(true);
     }
 
-    function handleConfirmTrip(){
-       try{
+    function handleConfirmTrip() {
+        try {
             const createdTrip = createTrip({
                 ...tripDraft,
                 plate: normalizedPlate
             });
             setOpenTrip(createdTrip);
             alert("Saida registrada com sucesso!")
-       } catch (error) {
+        } catch (error) {
             alert(error.message);
-       }
+        }
     }
 
-    function handleSubmitReturn(returndata){
+    function handleSubmitReturn(returndata) {
         setReturnDraft(returndata);
         setIsReviewingReturn(true);
     }
 
-    function handleConfirmReturn(){
-        try{
+    function handleConfirmReturn() {
+        try {
             closeTrip(openTrip.id, returnDraft.finalMileage);
 
             setOpenTrip(null);
@@ -73,8 +92,8 @@ export default function VehiclePage(){
         }
     }
 
-    if(openTrip){
-        return(
+    if (openTrip) {
+        return (
             <>
                 <h1>Veiculo: {normalizedPlate}</h1>
                 <OpenTrip trip={openTrip} />
@@ -92,17 +111,17 @@ export default function VehiclePage(){
         )
     }
 
-    return(
+    return (
         <>
             <h1>Veículo: {normalizedPlate}</h1>
             {
                 !isReviewing && <TripForm onSubmitTrip={handleSubmitTrip} initialData={tripDraft} />
             }
-            
-            
+
+
             {
-               isReviewing  && tripDraft && <TripReview tripDraft={tripDraft} onEdit={() => setIsReviewing(false)} onConfirm={handleConfirmTrip} />
-                    
+                isReviewing && tripDraft && <TripReview tripDraft={tripDraft} onEdit={() => setIsReviewing(false)} onConfirm={handleConfirmTrip} />
+
 
             }
         </>
