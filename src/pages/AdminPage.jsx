@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import {getVehicles} from "../repositories/vehiclesRepository";
 import AddVehicles from "../components/AddVehicles"
+import { Link } from "react-router-dom";
 export default function AdminPage(){
     const [vehicles, setVehicles] = useState([]);
     

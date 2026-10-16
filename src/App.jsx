@@ -1,7 +1,13 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useParams } from "react-router-dom"
 import AdminPage from "./pages/AdminPage"
 import VehiclePage from "./pages/VehiclePage"
 import NotFoundPage from "./pages/NotFoundPage"
+
+function VehicleRoute(){
+  const { plate } = useParams();
+
+  return <VehiclePage key={plate} />
+}
 
 function App() {
   
@@ -9,7 +15,7 @@ function App() {
     <>
       <Routes>
         <Route path='/admin' element={<AdminPage />} />
-        <Route path='/veiculo/:plate' element={<VehiclePage />} />
+        <Route path='/veiculo/:plate' element={<VehicleRoute />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </>

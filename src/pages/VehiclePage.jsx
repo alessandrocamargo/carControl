@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import normalizePlate, { isValidPlate } from "../utils/plate";
 import { getVehicles } from "../repositories/vehiclesRepository";
 import TripForm from "../components/TripForm";
