@@ -94,7 +94,7 @@ export default function VehiclePage() {
 
     if (openTrip) {
         return (
-            <>
+            <main className="vehicle-page">
                 <h1>Veiculo: {normalizedPlate}</h1>
                 <OpenTrip trip={openTrip} />
                 {
@@ -107,12 +107,12 @@ export default function VehiclePage() {
                         <ReturnTripReview returnDraft={returnDraft} initialMileage={openTrip.initialMileage} onEdit={() => setIsReviewingReturn(false)} onConfirm={handleConfirmReturn} />
                     )
                 }
-            </>
+            </main>
         )
     }
 
     return (
-        <>
+        <main className="vehicle-page">
             <h1>Veículo: {normalizedPlate}</h1>
             {
                 !isReviewing && <TripForm onSubmitTrip={handleSubmitTrip} initialData={tripDraft} />
@@ -124,6 +124,6 @@ export default function VehiclePage() {
 
 
             }
-        </>
+        </main>
     )
 }
