@@ -26,6 +26,13 @@ export function getOpenTripByPlate(plate) {
     return trips.find((trip) => trip.plate === plate && trip.status === "open");
 }
 
+function generateTripId() {
+    const values = new Uint32Array(4);
+    crypto.getRandomValues(values);
+
+    return Array.from(values, (value) => value.toString(16).padStart(8,"0")).join("");
+}
+
 export function createTrip(tripData) {
     const trips = getTrips();
     const driverName = tripData.driverName.trim();
@@ -44,7 +51,7 @@ export function createTrip(tripData) {
     }
 
     const newTrip = {
-        id: crypto.randomUUID(),
+        id: generateTripId(),
         plate: tripData.plate,
         driverName: driverName,
         destination: destination,
