@@ -28,7 +28,7 @@ export default function ReturnTripForm({ initialMileage, onSubmitReturn, initial
     }
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form className="trip-form" onSubmit={handleSubmit}>
             <label htmlFor="finalMileage">KM Final: </label>
             <input type="number" min="0" step="1" id="finalMileage" value={finalMileage}  onChange={(event) => setFinalMileage(event.target.value)} placeholder="Digite a KM Final" />
             <button type="submit">Conferir Retorno</button>

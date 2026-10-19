@@ -1,14 +1,16 @@
 export default function ReturnTripReview({ returnDraft, initialMileage, onEdit, onConfirm}){
     return(
-        <div>
+        <div className="trip-review">
                             <h2>Confira o retorno:</h2>
                             <p>KM Final: {returnDraft.finalMileage} km</p>
                             <p>
                                 Distância Percorrida: {" "}
                                 {returnDraft.finalMileage - initialMileage} km
                             </p>
-                            <button type="button" onClick={onEdit}>Editar retorno</button>
-                            <button type="button" onClick={onConfirm}>Confirmar retorno</button>
+                            <div className="review-actions">
+                                <button type="button" className="button-secondary" onClick={onEdit}>Editar retorno</button>
+                                <button type="button" className="button-primary" onClick={onConfirm}>Confirmar retorno</button>
+                            </div>
                         </div>
     )
 }
