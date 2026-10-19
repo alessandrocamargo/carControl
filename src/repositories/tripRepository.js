@@ -38,7 +38,7 @@ export function createTrip(tripData) {
     const driverName = tripData.driverName.trim();
     const destination = tripData.destination.trim();
     const openTrip = getOpenTripByPlate(tripData.plate);
-    if (!Number.isInteger(tripData.initialMileage) || tripData.initialMileage < 0) {
+    if (!Number.isInteger(tripData.initialMileage) || tripData.initialMileage <= 0) {
         throw new Error("Quilometragem inicial inválida.");
     }
 
