@@ -18,12 +18,15 @@ export default function AdminPage() {
         load();
     }, []);
     return (
-        <>
-            <AddVehicles onVehicleAdded={handleVehicleAdded} />
-            <h1>Admin</h1>
-            <p>Quantidade de veiculos: {vehicles.length}</p>
-            {vehicles.length === 0 && <p>Nenhum veiculo Cadastrado</p>}
-            <ul>
+        <main className="admin-page">
+            <h1>Administração de Veiculos</h1>
+            <section className="admin-registration">
+                <h2>Cadastrar veículo</h2>
+                <AddVehicles onVehicleAdded={handleVehicleAdded} />
+            </section>
+            <p className="vehicle-count">Quantidade de veiculos: {vehicles.length}</p>
+            {vehicles.length === 0 && <p className="vehicle-count">Nenhum veiculo Cadastrado</p>}
+            <ul className="vehicle-list">
                 {vehicles.map((vehicle) => {
                     
                     return (
@@ -33,6 +36,6 @@ export default function AdminPage() {
                     );
                 })}
             </ul>
-        </>
+        </main>
     )
 }

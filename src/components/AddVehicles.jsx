@@ -20,10 +20,10 @@ export default function AddVehicle({onVehicleAdded}){
     
 
     return(
-        <form onSubmit={handleSubmit}>
+        <form className="trip-form" onSubmit={handleSubmit}>
             <label htmlFor="plate">Placa:</label>
             <input type="text" id="plate" name="txtPlate" placeholder="Digite a placa" value={plate} onChange={(event) => setPlate(event.target.value)} />
-            <button name="btnCadastrar" type="submit">Cadastrar</button>
+            <button name="btnCadastrar" type="submit">Cadastrar Veiculo</button>
         </form>
     )
 }

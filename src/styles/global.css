@@ -140,3 +140,104 @@ button,input {
     line-height: 1.5;
     overflow-wrap: anywhere;
 }
+
+.admin-page {
+    width: calc(100% - 32px);
+    max-width: 1100px;
+    margin: 32px auto;
+}
+
+.admin-page h1 {
+    margin: 0 0 24px;
+    font-size: 1.75rem;
+}
+
+.admin-registration {
+    margin-bottom: 24px;
+    padding: 24px;
+    border-radius: 12px;
+}
+
+.admin-registration h2 {
+    margin: 0 0 20px;
+    font-size: 1.25rem;
+}
+
+.vehicle-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%,260px),1fr));
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.vehicle-list > li {
+    min-width: 0;
+    padding: 24px;
+    border-radius: 12px;
+}
+
+@media(max-width: 400px){
+    .admin-page{
+        margin: 16px auto;
+    }
+
+    .admin-registration, .vehicle-list > li{
+        padding: 20px;
+    }
+}
+
+.vehicle-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 20px;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #e2e8f0;
+    color: #334155;
+    font-size: 0.95rem;
+}
+
+.vehicle-count strong {
+    color: #1e40af;
+    font-size: 1.125rem;
+}
+
+.admin-registration, .vehicle-list > li {
+    background-color: #e2e8f0;
+    border: 1px solid #cbd5e1;
+}
+
+.admin-registration form {
+    max-width: 420px;
+}
+
+.vehicle-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.vehicle-card-plate {
+    margin: 0;
+    font-size: 1.25rem;
+    letter-spacing: 2px;
+}
+
+.vehicle-card-url {
+    max-width: 100%;
+    margin: 0;
+    color: #64748b;
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+}
+
+.vehicle-card svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
