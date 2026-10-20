@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import normalizePlate, { isValidPlate } from "../utils/plate";
 import { getVehicles } from "../repositories/vehiclesRepository";
 import TripForm from "../components/TripForm";
@@ -31,6 +31,8 @@ export default function VehiclePage() {
         }
     })
     const [openTrip, setOpenTrip] = useState(tripLoadResult.trip);
+    const [departureError, setDepartureError] = useState("");
+    const [returnError, setReturnError] = useState("");
 
     if (tripLoadResult.error) {
         return (
@@ -56,9 +58,11 @@ export default function VehiclePage() {
     function handleSubmitTrip(tripData) {
         setTripDraft(tripData);
         setIsReviewing(true);
+        setDepartureError("");
     }
 
     function handleConfirmTrip() {
+        setDepartureError("");
         try {
             const createdTrip = createTrip({
                 ...tripDraft,
@@ -67,16 +71,18 @@ export default function VehiclePage() {
             setOpenTrip(createdTrip);
             alert("Saida registrada com sucesso!")
         } catch (error) {
-            alert(error.message);
+            setDepartureError(error.message);
         }
     }
 
     function handleSubmitReturn(returndata) {
         setReturnDraft(returndata);
         setIsReviewingReturn(true);
+        setReturnError("");
     }
 
     function handleConfirmReturn() {
+        setReturnError("");
         try {
             closeTrip(openTrip.id, returnDraft.finalMileage);
 
@@ -88,7 +94,7 @@ export default function VehiclePage() {
 
             alert("Retorno registrado com sucesso!")
         } catch (error) {
-            alert(error.message);
+            setReturnError(error.message);
         }
     }
 
@@ -104,7 +110,7 @@ export default function VehiclePage() {
                 }
                 {
                     isReviewingReturn && returnDraft && (
-                        <ReturnTripReview returnDraft={returnDraft} initialMileage={openTrip.initialMileage} onEdit={() => setIsReviewingReturn(false)} onConfirm={handleConfirmReturn} />
+                        <ReturnTripReview returnDraft={returnDraft} initialMileage={openTrip.initialMileage} onEdit={() => setIsReviewingReturn(false)} errorMessage={returnError} onConfirm={handleConfirmReturn} />
                     )
                 }
             </main>
@@ -120,7 +126,7 @@ export default function VehiclePage() {
 
 
             {
-                isReviewing && tripDraft && <TripReview tripDraft={tripDraft} onEdit={() => setIsReviewing(false)} onConfirm={handleConfirmTrip} />
+                isReviewing && tripDraft && <TripReview tripDraft={tripDraft} onEdit={() => setIsReviewing(false)} errorMessage={departureError} onConfirm={handleConfirmTrip} />
 
 
             }
