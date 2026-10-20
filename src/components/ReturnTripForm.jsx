@@ -28,7 +28,7 @@ export default function ReturnTripForm({ initialMileage, onSubmitReturn, initial
             finalMileageRef.current?.focus();
             return;
         }
-
+        
         onSubmitReturn({
             finalMileage: mileage
         })
@@ -41,7 +41,7 @@ export default function ReturnTripForm({ initialMileage, onSubmitReturn, initial
             {errorMessage &&(
                 <p id="finalMileage-error" className="form-error" role="alert">{errorMessage}</p>
             )}
-            <button type="submit">Conferir Retorno</button>
+            <button type="submit" className="button-primary">Conferir Retorno</button>
         </form>
     )
 }

@@ -1,4 +1,5 @@
-import { useState, useRef } from "react"
+import { useState, useRef } from "react";
+import OdometerPhotoInput from "./OdometerPhotoInput"
 
 export default function TripForm({onSubmitTrip, initialData }){
     const [driverName, setDriverName] = useState(initialData?.driverName??"");
@@ -70,7 +71,8 @@ export default function TripForm({onSubmitTrip, initialData }){
             {errors.initialMileage && (
                 <p id="initialMileage-error" className="form-error" role="alert">{errors.initialMileage}</p>
             )}
-            <button type="submit">Conferir dados</button>
+            <OdometerPhotoInput />
+            <button type="submit" className="button-primary">Conferir dados</button>
         </form>
     )
 }
