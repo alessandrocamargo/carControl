@@ -30,7 +30,7 @@ export default function AddVehicle({onVehicleAdded}){
             {errorMessage && (
                 <p id="plate-error" className="form-error" role="alert">{errorMessage}</p>
             )}
-            <button name="btnCadastrar" type="submit">Cadastrar Veiculo</button>
+            <button name="btnCadastrar" type="submit" className="button-primary">Cadastrar Veiculo</button>
             {successMessage && (
                 <p className="form-success" role="status">{successMessage}</p>
             )}
