@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import normalizePlate, { isValidPlate } from "../utils/plate";
 import { getVehicles } from "../repositories/vehiclesRepository";
 import TripForm from "../components/TripForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TripReview from "../components/TripReview";
 import { createTrip, getOpenTripByPlate, closeTrip } from "../repositories/tripRepository";
 import OpenTrip from "../components/OpenTrip";
@@ -33,6 +33,19 @@ export default function VehiclePage() {
     const [openTrip, setOpenTrip] = useState(tripLoadResult.trip);
     const [departureError, setDepartureError] = useState("");
     const [returnError, setReturnError] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
+
+    useEffect (() => {
+        if(!successMessage){
+            return;
+        }
+
+        const timeoutId = setTimeout(() => {
+           setSuccessMessage(""); 
+        }, 5000);
+
+        return () => clearTimeout(timeoutId);
+    }, [successMessage]);
 
     if (tripLoadResult.error) {
         return (
@@ -59,17 +72,19 @@ export default function VehiclePage() {
         setTripDraft(tripData);
         setIsReviewing(true);
         setDepartureError("");
+        setSuccessMessage("");
     }
 
     function handleConfirmTrip() {
         setDepartureError("");
+        setSuccessMessage("");
         try {
             const createdTrip = createTrip({
                 ...tripDraft,
                 plate: normalizedPlate
             });
             setOpenTrip(createdTrip);
-            alert("Saida registrada com sucesso!")
+            setSuccessMessage("Saída registrada com sucesso!");
         } catch (error) {
             setDepartureError(error.message);
         }
@@ -79,10 +94,12 @@ export default function VehiclePage() {
         setReturnDraft(returndata);
         setIsReviewingReturn(true);
         setReturnError("");
+        setSuccessMessage("");
     }
 
     function handleConfirmReturn() {
         setReturnError("");
+        setSuccessMessage("");
         try {
             closeTrip(openTrip.id, returnDraft.finalMileage);
 
@@ -92,7 +109,7 @@ export default function VehiclePage() {
             setTripDraft(null);
             setIsReviewing(false);
 
-            alert("Retorno registrado com sucesso!")
+            setSuccessMessage("Retorno registrado com sucesso!");
         } catch (error) {
             setReturnError(error.message);
         }
@@ -102,6 +119,11 @@ export default function VehiclePage() {
         return (
             <main className="vehicle-page">
                 <h1>Veiculo: {normalizedPlate}</h1>
+                {
+                    successMessage && (
+                        <p className="form-success">{successMessage}</p>
+                    )
+                }
                 <OpenTrip trip={openTrip} />
                 {
                     !isReviewingReturn && (
@@ -120,6 +142,11 @@ export default function VehiclePage() {
     return (
         <main className="vehicle-page">
             <h1>Veículo: {normalizedPlate}</h1>
+            {
+                successMessage && (
+                    <p className="form-success">{successMessage}</p>
+                )
+            }
             {
                 !isReviewing && <TripForm onSubmitTrip={handleSubmitTrip} initialData={tripDraft} />
             }
