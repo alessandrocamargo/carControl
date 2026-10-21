@@ -23,6 +23,18 @@ export default function OdometerPhotoInput({ mileage, onMileageChange, mileageIn
         return () => URL.revokeObjectURL(objectUrl);
     }, [photo]);
 
+    useEffect(() => {
+        if (mileageError) {
+            setShowMileageInput(true);
+        }
+    }, [mileageError]);
+
+    useEffect(() => {
+        if (showMileageInput && mileageError && !isProcessing){
+            mileageInputRef.current?.focus();
+        }
+    }, [showMileageInput, mileageError, isProcessing, mileageInputRef]);
+
     async function handlePhotoChange(event) {
         const file = event.target.files?.[0];
         if (!file) {
