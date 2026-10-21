@@ -6,6 +6,7 @@ export default function TripForm({ onSubmitTrip, initialData }) {
     const [destination, setDestination] = useState(initialData?.destination ?? "");
     const [initialMileage, setInitialMileage] = useState(initialData?.initialMileage ?? "");
     const [errors, setErrors] = useState({});
+    const [isOcrProcessing, setIsOcrProcessing] = useState(false);
 
     const driverNameRef = useRef(null);
     const destinationRef = useRef(null);
@@ -17,6 +18,10 @@ export default function TripForm({ onSubmitTrip, initialData }) {
         const trimmedDestination = destination.trim();
         const mileage = Number(initialMileage);
         const nextErrors = {};
+
+        if(isOcrProcessing) {
+            return
+        }
 
         if (trimmedDriverName === "") {
             nextErrors.driverName = "Informe o motorista";
@@ -66,11 +71,11 @@ export default function TripForm({ onSubmitTrip, initialData }) {
             {errors.destination && (
                 <p id="destination-error" className="form-error" role="alert">{errors.destination}</p>
             )}
-            <OdometerPhotoInput mileage={initialMileage} onMileageChange={setInitialMileage} mileageInputRef={initialMileageRef} mileageError={errors.initialMileage}/>
+            <OdometerPhotoInput mileage={initialMileage} onMileageChange={setInitialMileage} mileageInputRef={initialMileageRef} mileageError={errors.initialMileage} onProcessingChange={setIsOcrProcessing}/>
             {errors.initialMileage && (
                 <p id="initialMileage-error" className="form-error" role="alert">{errors.initialMileage}</p>
             )}
-            <button type="submit" className="button-primary">Conferir dados</button>
+            <button type="submit" className="button-primary" disabled={isOcrProcessing}>Conferir dados</button>
         </form>
     )
 }

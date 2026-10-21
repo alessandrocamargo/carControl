@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { recognizeOdometer } from "../services/odometerOcr";
 
-export default function OdometerPhotoInput({ mileage, onMileageChange, mileageInputRef, mileageError }) {
+export default function OdometerPhotoInput({ mileage, onMileageChange, mileageInputRef, mileageError, onProcessingChange }) {
     const photoInputRef = useRef(null);
 
     const [photo, setPhoto] = useState(null);
@@ -43,6 +43,7 @@ export default function OdometerPhotoInput({ mileage, onMileageChange, mileageIn
         setPhoto(file);
         setShowMileageInput(true)
         setIsProcessing(true);
+        onProcessingChange(true)
         setOcrError("");
 
 
@@ -56,6 +57,7 @@ export default function OdometerPhotoInput({ mileage, onMileageChange, mileageIn
             setOcrError(error.message);
         } finally {
             setIsProcessing(false);
+            onProcessingChange(false);
         }
     }
     return (
