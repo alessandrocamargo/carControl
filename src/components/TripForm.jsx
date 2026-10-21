@@ -1,32 +1,32 @@
 import { useState, useRef } from "react";
 import OdometerPhotoInput from "./OdometerPhotoInput"
 
-export default function TripForm({onSubmitTrip, initialData }){
-    const [driverName, setDriverName] = useState(initialData?.driverName??"");
-    const [destination, setDestination] = useState(initialData?.destination??"");
-    const [initialMileage, setInitialMileage] = useState(initialData?.initialMileage??"");
+export default function TripForm({ onSubmitTrip, initialData }) {
+    const [driverName, setDriverName] = useState(initialData?.driverName ?? "");
+    const [destination, setDestination] = useState(initialData?.destination ?? "");
+    const [initialMileage, setInitialMileage] = useState(initialData?.initialMileage ?? "");
     const [errors, setErrors] = useState({});
 
     const driverNameRef = useRef(null);
     const destinationRef = useRef(null);
     const initialMileageRef = useRef(null);
 
-    function handleSubmit(event){
+    function handleSubmit(event) {
         event.preventDefault();
         const trimmedDriverName = driverName.trim();
         const trimmedDestination = destination.trim();
         const mileage = Number(initialMileage);
         const nextErrors = {};
 
-        if(trimmedDriverName === ""){
+        if (trimmedDriverName === "") {
             nextErrors.driverName = "Informe o motorista";
         }
 
-        if(trimmedDestination === ""){
+        if (trimmedDestination === "") {
             nextErrors.destination = "Informe o destino";
         }
 
-        if(initialMileage === ""){
+        if (initialMileage === "") {
             nextErrors.initialMileage = "Informe a quilometragem inicial.";
         } else if (!Number.isInteger(mileage) || mileage <= 0) {
             nextErrors.initialMileage = "Informe um numero inteiro, maior que zero"
@@ -34,14 +34,14 @@ export default function TripForm({onSubmitTrip, initialData }){
 
         setErrors(nextErrors);
 
-        if (Object.keys(nextErrors).length > 0){
-            if(nextErrors.driverName){
+        if (Object.keys(nextErrors).length > 0) {
+            if (nextErrors.driverName) {
                 driverNameRef.current?.focus();
             }
-            else if(nextErrors.destination){
+            else if (nextErrors.destination) {
                 destinationRef.current?.focus();
             }
-            else if(nextErrors.initialMileage){
+            else if (nextErrors.initialMileage) {
                 initialMileageRef.current?.focus();
             }
             return;
@@ -54,11 +54,11 @@ export default function TripForm({onSubmitTrip, initialData }){
         })
     }
 
-    return(
+    return (
         <form onSubmit={handleSubmit} className="trip-form" noValidate>
             <label htmlFor="driverName">Motorista:</label>
             <input type="text" id="driverName" ref={driverNameRef} aria-invalid={Boolean(errors.driverName)} aria-describedby={errors.driverName ? "driverName-error" : undefined} placeholder="Digite o nome do motorista" value={driverName} onChange={(event) => setDriverName(event.target.value)} />
-            {errors.driverName &&(
+            {errors.driverName && (
                 <p id="driverName-error" className="form-error" role="alert">{errors.driverName}</p>
             )}
             <label htmlFor="destination">Destino</label>
@@ -66,12 +66,10 @@ export default function TripForm({onSubmitTrip, initialData }){
             {errors.destination && (
                 <p id="destination-error" className="form-error" role="alert">{errors.destination}</p>
             )}
-            <label htmlFor="initialMileage">KM Inicial</label>
-            <input type="number" id="initialMileage" ref={initialMileageRef} aria-invalid={Boolean(errors.initialMileage)} aria-describedby={errors.initialMileage ? "initialMileage-error" : undefined} min="1" step="1" value={initialMileage} onChange={(event) => setInitialMileage(event.target.value)} placeholder="Digite a KM inicial" />
+            <OdometerPhotoInput mileage={initialMileage} onMileageChange={setInitialMileage} mileageInputRef={initialMileageRef}/>
             {errors.initialMileage && (
                 <p id="initialMileage-error" className="form-error" role="alert">{errors.initialMileage}</p>
             )}
-            <OdometerPhotoInput />
             <button type="submit" className="button-primary">Conferir dados</button>
         </form>
     )
