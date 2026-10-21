@@ -35,22 +35,31 @@ export default function OdometerPhotoInput({ mileage, onMileageChange, mileageIn
         }
     }, [showMileageInput, mileageError, isProcessing, mileageInputRef]);
 
-    async function handlePhotoChange(event) {
+    function handlePhotoChange(event) {
         const file = event.target.files?.[0];
         if (!file) {
             return;
         }
         setPhoto(file);
+        event.target.value = "";
+        
+    }
+
+    async function handleRecognizePhoto() {
         setShowMileageInput(true)
         setIsProcessing(true);
         onProcessingChange(true)
         setOcrError("");
+        
 
+        if(!photo || isProcessing){
+            return;
+        }
 
         try {
             onMileageChange("");
 
-            const text = await recognizeOdometer(file, setOcrStatus);
+            const text = await recognizeOdometer(photo, setOcrStatus);
             onMileageChange(text);
         } catch (error) {
             console.error(error);
@@ -71,13 +80,18 @@ export default function OdometerPhotoInput({ mileage, onMileageChange, mileageIn
             }
             {isProcessing && <p>{ocrStatus || "Iniciando OCR..."}</p>}
             {ocrError && <p role="alert">{ocrError}</p>}
+            {
+                photo && (
+                    <button type="button" className="button-secondary" disabled={isProcessing} onClick={handleRecognizePhoto}>Ler KM</button>
+                )
+            }
             {!showMileageInput && (
                 <button type="button" className="button-secondary" onClick={() => setShowMileageInput(true)}>Informar Km manualmente</button>
             )}
             {showMileageInput && (
                 <div>
                     <label htmlFor="initialMileage">KM identificada - confira o valor</label>
-                    <input type="text" disabled={isProcessing} ref={mileageInputRef} inputMode="numeric" id="initialMileage" aria-invalid={Boolean(mileageError)} aria-describedby={mileageError ? "initalMileage-error" : undefined} value={mileage} onChange={(event) => onMileageChange(event.target.value)} />
+                    <input type="text" disabled={isProcessing} ref={mileageInputRef} inputMode="numeric" id="initialMileage" aria-invalid={Boolean(mileageError)} aria-describedby={mileageError ? "initialMileage-error" : undefined} value={mileage} onChange={(event) => onMileageChange(event.target.value)} />
                 </div>
             )}
         </>

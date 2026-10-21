@@ -1,10 +1,21 @@
 import { createWorker } from "tesseract.js";
 
+let workerPromise = null;
+
+function getOcrWorker(){
+    if(!workerPromise){
+        workerPromise = createWorker("eng").catch((error) => {
+            workerPromise = null;
+            throw error;
+        });
+    }
+    return workerPromise;
+}
+
 export async function recognizeOdometer(photo, onStatus = () => {}) {
     onStatus("Preparando o motor OCR...");
-    const worker = await createWorker("eng");
+    const worker = await getOcrWorker();
 
-    try {
         onStatus("Reconhecendo a imagem...");
         const result = await worker.recognize(photo);
 
@@ -20,8 +31,4 @@ export async function recognizeOdometer(photo, onStatus = () => {}) {
         }
 
         return normalizedText;
-    } finally {
-        onStatus("Finalizando o OCR...");
-        await worker.terminate();
-    }
 }
