@@ -255,7 +255,21 @@ button,input {
 .odometer-preview {
     display: block;
     width: 100%;
-    max-height: 220px;
-    object-fit: contain;
+    height: auto;
     border-radius: 8px;
+}
+
+.odometer-crop-area {
+    position: relative;
+    width: 100%;
+    max-width: 240px;
+    margin-inline: auto;
+}
+
+.odometer-crop-box {
+    position: absolute;
+    box-sizing: border-box;
+    border: 2px solid #facc15;
+    background: rgb(250 204 21 / 12%);
+    pointer-events: none;
 }

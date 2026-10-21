@@ -26,8 +26,10 @@ export async function recognizeOdometer(photo, onStatus = () => {}) {
 
         if (!/^\d+$/.test(normalizedText)) {
             throw new Error(
-                "Não foi possível identificar uma quilometragem válida."
+                 "Não foi possível identificar uma quilometragem válida."
+                // `OCR bruto: ${JSON.stringify(result.data.text)} | Normalizado: ${JSON.stringify(normalizedText)}`
             );
+            
         }
 
         return normalizedText;
