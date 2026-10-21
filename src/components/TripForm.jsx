@@ -66,7 +66,7 @@ export default function TripForm({ onSubmitTrip, initialData }) {
             {errors.destination && (
                 <p id="destination-error" className="form-error" role="alert">{errors.destination}</p>
             )}
-            <OdometerPhotoInput mileage={initialMileage} onMileageChange={setInitialMileage} mileageInputRef={initialMileageRef}/>
+            <OdometerPhotoInput mileage={initialMileage} onMileageChange={setInitialMileage} mileageInputRef={initialMileageRef} mileageError={errors.initialMileage}/>
             {errors.initialMileage && (
                 <p id="initialMileage-error" className="form-error" role="alert">{errors.initialMileage}</p>
             )}

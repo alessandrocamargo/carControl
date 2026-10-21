@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { recognizeOdometer } from "../services/odometerOcr";
 
-export default function OdometerPhotoInput({ mileage, onMileageChange, mileageInputRef }) {
+export default function OdometerPhotoInput({ mileage, onMileageChange, mileageInputRef, mileageError }) {
     const photoInputRef = useRef(null);
 
     const [photo, setPhoto] = useState(null);
@@ -57,10 +57,13 @@ export default function OdometerPhotoInput({ mileage, onMileageChange, mileageIn
             }
             {isProcessing && <p>{ocrStatus || "Iniciando OCR..."}</p>}
             {ocrError && <p role="alert">{ocrError}</p>}
+            {!showMileageInput && (
+                <button type="button" className="button-secondary" onClick={() => setShowMileageInput(true)}>Informar Km manualmente</button>
+            )}
             {showMileageInput && (
                 <div>
                     <label htmlFor="initialMileage">KM identificada - confira o valor</label>
-                    <input type="text" disabled={isProcessing} ref={mileageInputRef} inputMode="numeric" id="initialMileage" value={mileage} onChange={(event) => onMileageChange(event.target.value)} />
+                    <input type="text" disabled={isProcessing} ref={mileageInputRef} inputMode="numeric" id="initialMileage" aria-invalid={Boolean(mileageError)} aria-describedby={mileageError ? "initalMileage-error" : undefined} value={mileage} onChange={(event) => onMileageChange(event.target.value)} />
                 </div>
             )}
         </>
