@@ -143,6 +143,13 @@ export default function OdometerPhotoInput({ mileage, onMileageChange, mileageIn
                     </div>
                 )
             }
+            {
+                previewUrl && (
+                    <>
+                        <label htmlFor="crop-x">Posição horizontal do recorte</label>
+                    </>
+                )
+            }
             {isProcessing && <p>{ocrStatus || "Iniciando OCR..."}</p>}
             {ocrError && <p role="alert">{ocrError}</p>}
             { 

@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
-import OdometerPhotoInput from "./OdometerPhotoInput"
+
 
 export default function TripForm({ onSubmitTrip, initialData }) {
     const [driverName, setDriverName] = useState(initialData?.driverName ?? "");
     const [destination, setDestination] = useState(initialData?.destination ?? "");
     const [initialMileage, setInitialMileage] = useState(initialData?.initialMileage ?? "");
     const [errors, setErrors] = useState({});
-    const [isOcrProcessing, setIsOcrProcessing] = useState(false);
+    
 
     const driverNameRef = useRef(null);
     const destinationRef = useRef(null);
@@ -71,11 +71,12 @@ export default function TripForm({ onSubmitTrip, initialData }) {
             {errors.destination && (
                 <p id="destination-error" className="form-error" role="alert">{errors.destination}</p>
             )}
-            <OdometerPhotoInput mileage={initialMileage} onMileageChange={setInitialMileage} mileageInputRef={initialMileageRef} mileageError={errors.initialMileage} onProcessingChange={setIsOcrProcessing}/>
+            <label htmlFor="initialMileage">Km Saida:</label>
+            <input type="number" id="initalMileage" ref={initialMileageRef} aria-invalid={Boolean(errors.initialMileage)} aria-describedby={errors.initialMileage ? "intialMileage-error" :undefined} placeholder="Digite o Km de Saída" value={initialMileage} onChange={(event) => setInitialMileage(event.target.value)} />
             {errors.initialMileage && (
-                <p id="initialMileage-error" className="form-error" role="alert">{errors.initialMileage}</p>
+                <p id="initalMileage-error" className="form-error" role="alert">{errors.initialMileage}</p>
             )}
-            <button type="submit" className="button-primary" disabled={isOcrProcessing}>Conferir dados</button>
+            <button type="submit" className="button-primary" >Conferir dados</button>
         </form>
     )
 }
