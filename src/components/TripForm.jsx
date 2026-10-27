@@ -19,10 +19,6 @@ export default function TripForm({ onSubmitTrip, initialData }) {
         const mileage = Number(initialMileage);
         const nextErrors = {};
 
-        if(isOcrProcessing) {
-            return
-        }
-
         if (trimmedDriverName === "") {
             nextErrors.driverName = "Informe o motorista";
         }

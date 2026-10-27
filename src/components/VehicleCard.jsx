@@ -4,7 +4,7 @@ export default function VehicleCard({ vehicle }) {
     return(
         <div className="vehicle-card">
             <h2 className="vehicle-card-plate">{vehicle.plate}</h2>
-            <p className="vehicle-car-url">{vehicleUrl}</p>
+            <p className="vehicle-card-url">{vehicleUrl}</p>
             <QRCodeSVG value={vehicleUrl} size={160} />
         </div>
     )
